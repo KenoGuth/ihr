@@ -1,0 +1,291 @@
+﻿@page "/editidb/{selectedIDB:int}"
+@using IDB.Model
+@using IDB.Business
+@rendermode InteractiveServer
+@inject Business BusinessService
+@inject NavigationManager NavigationManager
+<div class="blurred-bg"></div>
+<div class="container-fluid text-center container-lg mb-3">
+    <div class="row">
+        <div class="col-12">
+            <h1>IDB bearbeiten</h1>
+
+            @if (responseMessage != null)
+            {
+                <div class="alert @(isSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                    @responseMessage
+                    <button type="button" class="btn-close" @onclick="ClearMessage"></button>
+                </div>
+            }
+
+            @if (_IDB == null)
+            {
+                <p><em>Laden...</em></p>
+            }
+            else
+            {
+                @* IDB Grunddaten *@
+                <div class="card mb-4 rounded-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">IDB Grunddaten</h5>
+                    </div>
+                    <div class="card-body bg-white-glass">
+                        <EditForm Model="@_IDB" OnValidSubmit="HandleValidSubmit">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="Table_Name">Tabellenname:</label>
+                                        <InputText id="Table_Name" class="form-control" @bind-Value="_IDB.Table_Name" @oninput="() => isChanged = true" />
+                                        <ValidationMessage For="@(() => _IDB.Table_Name)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="MenuAllowed">Menu Allowed:</label>
+                                        <InputText id="MenuAllowed" class="form-control" @bind-Value="_IDB.Menu_allowed" />
+                                        <ValidationMessage For="@(() => _IDB.Menu_allowed)" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </EditForm>
+                    </div>
+                </div>
+
+                @* Spalten bearbeiten *@
+                <div class="card rounded-4 shadow-none">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Spalten bearbeiten</h5>
+                        <button class="btn btn-outline-primary btn-sm" @onclick="ShowAddColumnForm">
+                            <i class="bi bi-plus-circle"></i> Neue Spalte hinzufügen
+                        </button>
+                    </div>
+                    <div class="card-body">
+
+                        @* Formular für neue Spalte *@
+                        @if (showAddColumnForm)
+                        {
+                            <div class="card mb-4 border-primary">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Neue Spalte hinzufügen</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Spaltenname:</label>
+                                            <input type="text" class="form-control" @bind="newColumnName" placeholder="Name eingeben..." />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Datentyp:</label>
+                                            <select class="form-select" @bind="newColumnDataType">
+                                                @foreach (var type in dataTypes)
+                                                {
+                                                    <option value="@type">@type</option>
+
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mx-1">
+                                            <label>Ausfuellhilfe:</label>
+                                            <InputSelect class="form-select" @bind-Value="newColumnAusfuellhilfe">
+                                                <option selected value="">Keine</option>
+                                                @foreach (var item in ausfuellhilfen)
+                                                {
+                                                    <option value="@item.Id">@item.Titel</option>
+
+                                                }
+                                            </InputSelect>
+                                        </div>
+                                        <div class="col-md-3 ms-3 d-flex align-items-end">
+                                            <button class="btn btn-success me-2" @onclick="AddNewColumn">Hinzufügen</button>
+                                            <button class="btn btn-secondary" @onclick="CancelAddColumn">Abbrechen</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (_Columns == null)
+                        {
+                            <p><em>Lade Spalten...</em></p>
+                        }
+                        else
+                        {
+                            @* Header *@
+                            <div class="row fw-bold border-bottom pb-2 mb-3">
+                                <div class="col-md-1">#</div>
+                                <div class="col-md-2">Sortierung</div>
+                                <div class="col-md-3">Bezeichnung</div>
+                                <div class="col-md-2">Datentyp</div>
+                                <div class="col-md-3">Ausfüllhilfe</div>
+                                <div class="col-md-1">Aktionen</div>
+                            </div>
+
+                            @* Nur aktive Spalten anzeigen *@
+
+                            var activeColumns = GetActiveColumns();
+
+
+                            @if (!activeColumns.Any())
+                            {
+                                <div class="text-center py-4">
+                                    <p class="text-muted">Keine Spalten vorhanden.</p>
+                                </div>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < activeColumns.Count; i++)
+                                {
+                                    var column = activeColumns[i];
+                                    var rowIndex = i + 1;
+                                    var isHighlighted = highlightedColumnId == column.Id;
+
+                                    <div class="row align-items-center py-2 border-bottom @(isHighlighted ? "highlighted-column" : "")">
+                                        @* Zeilennummer *@
+                                        <div class="col-md-1">
+                                            <span class="badge bg-secondary">@rowIndex</span>
+                                        </div>
+
+                                        @* Sortierung *@
+                                        <div class="col-md-2">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        @onclick="@(() => MoveColumnToTop(column))"
+                                                        disabled="@(i == 0)">
+                                                    <label>
+                                                        <Tooltip Text="Spalte an den Anfang verschieben"><i class="bi bi-align-top"></i></Tooltip>
+                                                    </label>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        @onclick="@(() => MoveColumnUp(column))"
+                                                        disabled="@(i == 0)">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        @onclick="@(() => MoveColumnDown(column))"
+                                                        disabled="@(i == activeColumns.Count - 1)">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        @onclick="@(() => MoveColumnToBottom(column))"
+                                                        disabled="@(i == activeColumns.Count - 1)">
+                                                    <label>
+                                                        <Tooltip Text="Spalte ans Ende verschieben"><i class="bi bi-align-bottom"></i></Tooltip>
+                                                    </label>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        @* Bezeichnung *@
+                                        <div class="col-md-3 d-flex align-items-center">
+                                            <input type="text" maxlength="250" class=" form-control form-control-sm" @bind="column.Name" @bind:event="oninput" />
+                                            <span style="font-size: 0.8em; color: #6c757d;" class="p-1">
+                                                @column.Name?.Length/250
+                                            </span>
+                                        </div>
+
+
+                                        @* Datentyp *@
+                                        <div class="col-md-2">
+                                            <select class="form-select form-select-sm" @bind="column.Data_type" @oninput="@(() => dataTypeChange = true)">
+                                                @foreach (var type in dataTypes)
+                                                {
+                                                    if (column.Data_type == type)
+                                                    {
+                                                        <option selected value="@type">@type</option>
+                                                    }
+                                                    else
+                                                    {
+
+
+                                                        if (type.Contains("Text"))
+                                                        {
+                                                            <option value="@type">@type</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@type" disabled>@type</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+
+                                        @* Ausfuellhilfe *@
+                                        <div class="col-md-3">
+                                            <InputSelect @bind-Value="column.Id_ausfuellhilfe">
+                                                <option selected value="">Keine</option>
+                                                @foreach (var item in ausfuellhilfen)
+                                                {
+                                                 <option value="@item.Id">@item.Titel</option>
+
+                                                }
+                                            </InputSelect>
+
+                                        </div>
+
+                                        @* Löschen *@
+                                        <div class="col-md-1">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" @onclick="@(() => ConfirmDelete(column))">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                            @* Speichern Button *@
+                            <div class="d-flex gap-2 mt-4">
+                                <button class="btn btn-success" @onclick="SaveAllColumns">
+                                    <i class="bi bi-check-circle"></i> IDB Speichern
+                                </button>
+
+                                <button type="button" class="btn btn-danger" @onclick="NavigateBackToOverview">Abbrechen</button>
+
+                                <button class="btn btn-warning" @onclick="@(() => showResetModal =true)">
+                                    <i class="bi bi-arrow-clockwise"></i> Zurücksetzen
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <ConfirmModal Title="Änderungen verwerfen?"
+                  Message="Sind Sie sicher, dass Sie die Änderungen verwerfen möchten?"
+                  ConfirmText="Verwerfen und zurück"
+                  CancelText="Speichern und zurück"
+                  Visible="@showConfirmationModal"
+                  OnConfirm="ConfirmedNavigateBackToOverview"
+                  OnCancel="HandleValidSubmit" />
+    <ConfirmModal Title="Spalte löschen?"
+                  Message="Sind Sie sicher, dass Sie die Spalte löschen möchten?"
+                  ConfirmText="Ja, Spalte löschen"
+                  CancelText="Abbrechen"
+                  Visible="@showDeleteColModal"
+                  OnConfirm="@(() => DeleteConfirmed())"
+                  OnCancel="@(() => showDeleteColModal = false)" />
+    <ConfirmModal Title="Alle Änderungen zurücksetzen?"
+                  Message="Sind Sie sicher, dass Sie alle Änderungen zurücksetzen möchten?"
+                  ConfirmText="Ja, zurücksetzen"
+                  CancelText="Abbrechen"
+                  Visible="@showResetModal"
+                  OnConfirm="@(() => LoadColumns())"
+                  OnCancel="@(() => showResetModal = false)" />
+    <ConfirmModal Title="Datentyp wirklich ändern?"
+                  Message="Sind Sie sicher, dass Sie den Datentyp ändern wollen? Diese Änderungen ist aufgrund technischer Notwendigkeit unumkehrbar!"
+                  ConfirmText="Ja, Datentyp ändern"
+                  CancelText="Abbrechen"
+                  Visible="@showDataTypeModal"
+                  OnConfirm="@(() => { dataTypeChange = false; showDataTypeModal = false; SaveAllColumns(); })"
+                  OnCancel="@(() => { showDataTypeModal = false; LoadColumns(); })" />
+</div>
+
+@code {
+
+}

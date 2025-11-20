@@ -1,0 +1,123 @@
+﻿@using IDB.Model;
+@page "/overview";
+@using Microsoft.Fast.Components.FluentUI
+@using IDB.Business;
+@inject NavigationManager navigationManager
+@inject Business BusinessService
+<style>
+   .blurred-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+       background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        z-index: -1;
+    }
+
+    .bg-white-glass {
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px); /* Safari */
+    }
+
+
+
+</style>
+<div class="blurred-bg"></div>
+<div class=" p-3 text-center  mb-3 container-lg">
+    <h3 class="">Übersicht über meine IDBs</h3>
+@if (IsLoading)
+{
+    <div class="d-flex justify-content-center my-4 flex-column align-items-center">
+        <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Lade Daten…</span>
+        </div>
+        @if (ZeigeVerzögerungsNachricht)
+        {
+            <div class="text-muted text-center">
+                    Einen Augenblick Geduld bitte – unsere Daten brauchen heute etwas länger, vermutlich stehen sie im Stau auf der Datenautobahn. 🚗💨
+            </div>
+        }
+    </div>
+}
+else
+{
+        <div class="row border shadow bg-white-glass rounded-4 p-3 m-2 mt-4 container-lg">
+        <div class="col">
+            <table class="table table-striped hoverTable">
+                <tr>
+                    <th>
+                        IDB anzeigen
+                    </th>
+                    <th>
+                        IDB bearbeiten
+                    </th>
+                        <th>
+                            IDB Exportieren
+                        </th>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        Name
+
+                    </th>
+                    <th>
+                        Erstellt
+                    </th>
+                 
+                </tr>
+
+
+                @foreach (var item in _IDBs)
+                {
+                            <tr style="border-bottom: 2px solid #dee2e6;" >
+
+                        <td>
+                            <button id="btnUebersichtPMDetails" class="btn btn-outline-primary btn-lg rounded-2 my-2 py-1" title="IDB anzeigen" @onclick="() => btnFilterAndOpen(item.Id)">
+                                <span class="bi bi-eyeglasses" alt="Details anzeigen">
+
+                                </span>
+                            </button>
+                        </td>
+                        <td>
+                                <button id="btnUebersichtPMSend" class="btn btn-primary rounded-2 my-2 py-1" title="IDB bearbeiten" @onclick="()=> btnOpenAndEditIDB(item.Id)">
+                                <span class="bi-pencil" alt="IDB bearbeiten">
+
+                                </span>
+                            </button>
+                        </td>
+                            <td>
+                                <button id="export" class="btn btn-primary rounded-2 my-2 py-1" title="IDB exportieren" @onclick="()=> btnExportIDB(item.Id)">
+                                    <span class="bi-share text-primary" alt="IDB exportieren">
+
+                                    </span>
+                                </button>
+                            </td>
+                        <td>
+                            @item.Id
+                        </td>
+
+                        <td>
+                            @item.Table_Name
+                        </td>
+                        <td>
+                            @item.CreatedAt
+                        </td>
+                       
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+    </div>
+    
+}
+</div>
+

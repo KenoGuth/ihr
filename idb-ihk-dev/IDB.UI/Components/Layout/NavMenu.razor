@@ -1,0 +1,44 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">IDB</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler " />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link px-3" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill" aria-hidden="true"></span><div class=" ms-2"> Home</div>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link px-3" href="InsertIDB">
+                <span class="bi bi-plus-square-fill" aria-hidden="true"></span><div class="ms-2"> IDB erstellen</div>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link px-3" href="overview">
+                <span class="bi bi-list-nested" aria-hidden="true"></span><div class="ms-2"> Übersicht meiner IDBs</div>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link px-3" href="Ausfuellhilfen">
+                <span class="bi bi-pencil" aria-hidden="true"></span> <div class="ms-2"> Ausfuellhilfen</div>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link px-3" href="Impressum">
+                <span class="bi bi-receipt" aria-hidden="true"></span><div class="ms-2"> Impressum</div>
+            </NavLink>
+        </div>
+
+        
+    </nav>
+</div>
+

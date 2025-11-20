@@ -1,0 +1,285 @@
+﻿@using IDB.Business;
+@using DevExpress.Blazor;
+@using DevExpress.Blazor.PdfViewer;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Microsoft.AspNetCore.Components;
+@using System.IO
+@using Microsoft.JSInterop;
+@inject IJSRuntime jsRuntime;
+@inject Business BusinessService;
+@inject NavigationManager Navigation;
+@page "/detailrecord/{selectedIDB:int}";
+@page "/detailrecord/{selectedIDB:int}/{selectedRowID:int}";
+
+<style>
+
+
+    .blurred-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: -1;
+    }
+
+
+
+
+</style>
+
+<link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css" rel="stylesheet" />
+<link href="_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.bs5.css" rel="stylesheet" />
+<link rel="stylesheet" href=@AppendVersion("_content/DevExpress.Blazor.Viewer/css/dx-blazor-viewer-components.bs5.css")>
+
+<div class="blurred-bg"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Startseite</a></li>
+        <li class="breadcrumb-item"><a href="/overview">Übersicht über die IDBs</a></li>
+        <li class="breadcrumb-item"><a href="/details/@selectedIDB">Zurück zur Tabelle: "@_IDB.Table_Name"</a></li>
+
+        @if (isPdfViewer)
+        {
+            <li class="breadcrumb-item active"><button class="btn btn-link p-0" @onclick="ClosePdfViewer">Zurück </button></li>
+        }
+        else
+        {
+            <li class="breadcrumb-item active">@GetPageTitle()</li>
+        }
+    </ol>
+</nav>
+
+<h3 class="text-center">@GetPageTitle()</h3>
+
+<div class="border rounded-4 p-3 bg-white container-lg">
+    @if (_ColumnsSingleIDB == null || isLoading==true)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Lade Daten…</span>
+            </div>
+        </div>
+    }
+    
+    else
+    {
+        if(isPdfViewer)
+        {
+                    <DxPdfViewer DocumentContent="viewFile.FileData" ZoomLevel="1"></DxPdfViewer>
+        } 
+        else
+    {
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    Tabelle: @_IDB.Table_Name
+                    @if (IsEditMode)
+                    {
+                        <span class="badge bg-secondary ms-2">Datensatz ID: @selectedRowID</span>
+                    }
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (responseMessage != null)
+                {
+                    <div class="alert @(isSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                        @responseMessage
+                        <button type="button" class="btn-close" @onclick="ClearMessage" aria-label="Close"></button>
+                    </div>
+                }
+
+                <form @onsubmit="SaveRecord" @onsubmit:preventDefault="true">
+                    <div class="row">
+                        @foreach (var column in _ColumnsSingleIDB.Where(c => c.Archived == false).OrderBy(c => c.Column_no))
+                        {
+                            if (column.Id_ausfuellhilfe != null)
+                            {
+                                columnID = column.Id;
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="field_@column.Id" class="form-label">
+                                        @column.Name
+                                        <InputSelect @bind-Value="recordData[columnID]" class="form-control">
+                                            <option value="">-- Bitte auswählen --</option>
+                                            @foreach (var item in ausfuellhilfeItems.Where(x => x.Id_ausfuellhilfe == column.Id_ausfuellhilfe))
+                                            {
+                                                <option value="@item.Text">@item.Text</option>
+                                            }
+                                        </InputSelect>
+                                    </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 mb-3">
+                                    <label>
+                                        @column.Name
+                                    </label>
+
+                                    @if (GetColumnDataType(column) == "text")
+                                    {
+                                       
+                                        <input id="field_@column.Id"
+                                               type="text"
+                                               class="form-control @GetValidationClass(column.Id)"
+                                               @bind="recordData[column.Id]"
+                                               placeholder="@GetPlaceholder(column)" />
+                                    }
+                                    else if (GetColumnDataType(column) == "number")
+                                    {
+                                        <input id="field_@column.Id"
+                                               type="number"
+                                               class="form-control @GetValidationClass(column.Id)"
+                                               @bind="recordData[column.Id]"
+                                               placeholder="@GetPlaceholder(column)" />
+                                    }  
+                                    else if (GetColumnDataType(column) == "decimal")
+                                    {
+                                        <input id="field_@column.Id"
+                                               type="number"
+                                               step="0.01"
+                                               class="form-control @* @GetValidationClass(column.Id) *@"
+                                               @bind="recordData[column.Id]"
+                                               placeholder="@GetPlaceholder(column)" />
+                                    }
+                                     
+                                    else if (GetColumnDataType(column) == "date")
+                                    {
+                                        <input id="field_@column.Id"
+                                        type="date"
+                                        class="form-control @GetValidationClass(column.Id)"
+                                        value="@FormatDateForInput(column.Id)"
+                                        @onchange="@((ChangeEventArgs e) => HandleDateChange(e, column.Id))"
+                                        placeholder="@GetPlaceholder(column)" />
+                                    }
+                                    else if (GetColumnDataType(column) == "email")
+                                    {
+                                        <input id="@* field_@column.Id *@"
+                                               type="email"
+                                               class="form-control @GetValidationClass(column.Id)"
+                                               @bind="recordData[column.Id]"
+                                               placeholder="@GetPlaceholder(column)" />
+                                    }
+                                    else
+                                    {
+                                        <textarea id="field_@column.Id"
+                                                  class="form-control @GetValidationClass(column.Id)"
+                                                  @bind="recordData[column.Id]"
+                                                  placeholder="@GetPlaceholder(column)"
+                                                  rows="3"></textarea>
+                                    }
+                                    
+
+                                                @if (validationErrors.ContainsKey(column.Id))
+                                                {
+                                                    <div class="invalid-feedback d-block">
+                                                        @validationErrors[column.Id]
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success" disabled="@isProcessing">
+                                    @if (isProcessing)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                    }
+                                    @(IsEditMode ? "Änderungen speichern" : "Datensatz erstellen")
+                                </button>
+
+                                @if (IsEditMode)
+                                {
+                                    <button type="button" class="btn btn-warning" @onclick="ResetForm" disabled="@isProcessing">
+                                        Zurücksetzen
+                                    </button>
+                                    <button type="button" class="btn btn-danger" @onclick="ShowDeleteConfirmation" disabled="@isProcessing">
+                                        Löschen
+                                    </button>
+                                }
+
+                                <button type="button" class="btn btn-primary" @onclick="NavigateBack" disabled="@isProcessing">
+                                    Abbrechen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- eDOKs -->
+                <div class="mt-5">
+                    <br />
+                    <div class="container">
+                        @if (files.Any())
+                        {
+                            <strong>Verfügbare Dateien:</strong>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Dateiname</th>
+
+                                        <th>Aktionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var file in files.OrderByDescending(f => f.UploadDate))
+                                    {
+                                        <tr>
+                                            <td>@file.FileName</td>
+                                            @{
+                                                file.UploadedBy = "Keno Guthier";
+                                            }
+                                            <td>
+                                                <button class="btn btn-primary btn-sm me-1" @onclick="@(() =>  ViewFile(file))">Anschauen</button>
+                                 <button class="btn btn-danger btn-sm" @onclick="@(() => Delete_FileAsync(file))">Löschen</button>
+                            </td>
+                        </tr>
+                                    }
+            </tbody>
+        </table>
+
+                        }
+                    </div>
+                    <div class="upload-container">
+                            <div class="card m-2 p-3">
+                            <h5>Datei Upload</h5>
+
+                                    <div  class="mb-3">
+                                <InputFile OnChange="OnInputFileChange"
+                                           accept=".pdf"
+                                           class="form-control" />
+                            </div>
+
+                            
+
+                            @if (!string.IsNullOrEmpty(uploadMessage))
+                            {
+                                <div class="alert @(uploadMessage.Contains("Fehler") ? "alert-danger" : "alert-success") mt-3">
+                                    @uploadMessage
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    }
+</div>
+
+<ConfirmModal Title="Datensatz löschen?"
+              Message="Sind Sie sicher, dass Sie diesen Datensatz löschen möchten?"
+              ConfirmText="Löschen"
+              CancelText="Abbrechen"
+              Visible="@showDeleteModal"
+              OnConfirm="DeleteRecord"
+              OnCancel="HideDeleteConfirmation" />

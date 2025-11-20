@@ -1,0 +1,51 @@
+﻿@using IDB.Business;
+@using DevExpress.Blazor.Reporting
+@inject Business BusinessService
+@inject NavigationManager Navigation
+
+@page "/export/{selectedIDB:int}"
+
+<link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css" rel="stylesheet" />
+<link href="_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.bs5.css" rel="stylesheet" />
+<style>
+    .blurred-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        z-index: -1;
+    }
+</style>
+
+<div class="blurred-bg"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Startseite</a></li>
+        <li class="breadcrumb-item"><a href="/overview">Übersicht über die IDBs</a></li>
+        <li class="breadcrumb-item active">Report anzeigen/Excel Export</li>
+    </ol>
+</nav>
+
+<div class="container-lg">
+    <div class="mb-3">
+        <a href="/details/@selectedIDB" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Zurück zur Übersicht
+        </a>
+    </div>
+
+    
+
+ @if (_Report != null)
+{
+    <DxReportViewer CssClass="rounded-4" @ref="_reportViewer" Report="@_Report" />
+}
+ <br>
+  <br> <br><br>
+ 
+</div>
+@*  *@ 

@@ -1,0 +1,122 @@
+﻿@page "/InsertIDB"
+@using DevExpress.Blazor
+@inject AppState appState;
+@inject NavigationManager Navigation
+<style>
+    .blurred-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        z-index: -1;
+    }
+
+</style>
+<div class="blurred-bg"></div>
+<div class="container-lg">
+    <div class=" rounded-4 p-3  bg-white">
+        <h3>Insert IDB</h3>
+
+        <EditForm Model="idb" Context="EditFormContext" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <DxFormLayout Context="IDBInput">
+
+
+
+                <DxFormLayoutItem Caption="Name:" ColSpanMd="6">
+                    <DxTextBox BindValueMode="@BindValueMode.OnInput" @bind-Text="idb.Table_Name" ShowValidationIcon="true"
+                               ShowValidationSuccessState="true" />
+                    <span style="font-size: 0.8em; color: #6c757d;" class="p-1">
+                        @idb.Table_Name?.Length/250
+                    </span>
+                </DxFormLayoutItem>
+
+                <DxFormLayoutItem Caption="Menu Allowed:" ColSpanMd="6">
+                    <DxTextBox BindValueMode="@BindValueMode.OnInput"  @bind-Text="idb.Menu_allowed" ShowValidationIcon="true"
+                               ShowValidationSuccessState="true" />   <span style="font-size: 0.8em; color: #6c757d;" class="p-1">
+
+                        @idb.Menu_allowed?.Length/4
+                    </span>
+                </DxFormLayoutItem>
+
+            </DxFormLayout>
+
+
+
+        </EditForm>
+        <div class="border rounded-3 shadow-sm p-3 mt-3">
+            @foreach (var column in columns)
+            {
+                int index = columns.IndexOf(column);
+
+                <div class="@(index == 0 ? "rounded p-3 mt-1" : "border-top rounded p-3 mt-1")">
+                    <EditForm Model="column" OnValidSubmit="() => { }">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label>Name:</label>  <input type="text" maxlength="250" class=" form-control form-control-sm" @bind="column.Name" @bind:event="oninput" />
+                            <span style="font-size: 0.8em; color: #6c757d;" class="p-1">
+                                @column.Name?.Length/250
+                            </span>
+                        </div>
+
+                        <div class="col-md-3 d-flex align-items-center">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Datentyp:</label>
+                            <InputSelect @bind-Value="column.Data_type" class="form-control">
+                                @foreach (var type in dataTypes)
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => column.Data_type)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ist Nullable:</label>
+                            <InputCheckbox @bind-Value="column.Is_nullable" class="form-check-input" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Standardwert:</label>
+                            <InputText @bind-Value="column.Default_value" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Ausfüllhilfe</label>
+                            <InputSelect @bind-Value="column.Id_ausfuellhilfe">
+                                <option selected value="">Keine</option>
+                                @foreach (var item in ausfuellhilfen)
+                                {
+                                    <option value="@item.Id">@item.Titel</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </EditForm>
+                </div>
+
+            }
+        </div>
+        <button type="button" class="btn btn-outline-primary py-1 px-2 mt-2 mx-2 ms-0" @onclick="AddAnotherColumn">Weitere Spalte hinzufügen</button>
+    </div>
+    <button type="button" class="btn btn-outline-success py-1 px-2 mt-2 ms-3" @onclick="HandleValidSubmit">IDB anlegen</button>
+
+</div>
+
+@if (responseMessage != null)
+{
+    <div class="alert alert-info mt-3">
+        @responseMessage
+    </div>
+}
+
+@if (countdown != null)
+{
+    @countdown
+}

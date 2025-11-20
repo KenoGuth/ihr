@@ -1,0 +1,181 @@
+﻿@page "/ausfuellhilfe/bearbeiten/{chosenId:int}"
+@using System.ComponentModel.DataAnnotations
+@using IDB.Business
+@using IDB.Model
+@inject NavigationManager navi
+@inject AppState appState
+
+
+<style>
+    .blurred-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        z-index: -1;
+    }
+
+    .list-item {
+        transition: all 0.2s ease;
+        border: 1px solid #dee2e6;
+    }
+
+        .list-item:hover {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+    .add-item-btn {
+        border: 2px dashed #dee2e6;
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+
+        .add-item-btn:hover {
+            border-color: #0d6efd;
+            background: rgba(13, 110, 253, 0.05);
+        }
+
+    .remove-btn {
+        transition: all 0.2s ease;
+    }
+
+        .remove-btn:hover {
+            transform: scale(1.1);
+        }
+</style>
+
+<div class="blurred-bg"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Startseite</a></li>
+        <li class="breadcrumb-item"><a href="/ausfuellhilfen">Ausfüllhilfen</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ausfüllhilfe bearbeiten</li>
+    </ol>
+</nav>
+
+<h3 class="text-center">Ausfüllhilfe bearbeiten</h3>
+
+<div class="border rounded-4 p-3 bg-white container-lg">
+    @if (IsLoading)
+    {
+        <div class="d-flex justify-content-center p-5">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Lade Daten…</span>
+            </div>
+        </div>
+    }
+    else if (ausfuellhilfe == null)
+    {
+        <div class="alert alert-danger">Die angeforderte Ausfüllhilfe konnte nicht gefunden werden.</div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pencil-square me-2"></i>
+                    Details bearbeiten
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert @(isSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                        @responseMessage
+                        <button type="button" class="btn-close" @onclick="ClearMessage" aria-label="Close"></button>
+                    </div>
+                }
+
+                <form @onsubmit="UpdateAusfuellhilfe" @onsubmit:preventDefault="true">
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="titel" class="form-label">Titel <span class="text-danger">*</span></label>
+                            <input id="titel" type="text" class="form-control @GetValidationClass("titel")" @bind="ausfuellhilfe.Titel" />
+                            @if (validationErrors.ContainsKey("titel"))
+                            {
+                                <div class="invalid-feedback d-block">@validationErrors["titel"]</div>
+                            }
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="notiz" class="form-label">Notiz (optional)</label>
+                            <textarea id="notiz" class="form-control" @bind="ausfuellhilfe.Notiz" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0"><i class="bi bi-list-check me-2"></i>Elemente der Ausfüllhilfe</h6>
+                            <span class="badge bg-info">@ausfuellhilfeItems.Count @(ausfuellhilfeItems.Count == 1 ? "Element" : "Elemente")</span>
+                        </div>
+
+                        @for (int i = 0; i < ausfuellhilfeItems.Count; i++)
+                        {
+                            var index = i;
+                            var item = ausfuellhilfeItems[index];
+                            <div class="list-item rounded p-3 mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto"><span class="badge bg-secondary">@(index + 1)</span></div>
+                                    <div class="col-md-2">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="@(() => MoveItemToTop(index))" disabled="@(index == 0)">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="@(() => MoveItemUp(index))" disabled="@(index == 0)">
+                                                <i class="bi bi-arrow-up"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="@(() => MoveItemDown(index))" disabled="@(index == ausfuellhilfeItems.Count - 1)">
+                                                <i class="bi bi-arrow-down"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="@(() => MoveItemToBottom(index))" disabled="@(index == ausfuellhilfeItems.Count - 1)">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control form-control-sm" @bind="item.Text" placeholder="Element-Text..." />
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-btn" @onclick="() => RemoveItem(index)" title="Element entfernen">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <button type="button" class="btn add-item-btn w-100 py-3" @onclick="AddNewItem">
+                            <i class="bi bi-plus-circle me-2"></i> Neues Element hinzufügen
+                        </button>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success" disabled="@isProcessing">
+                                    @if (isProcessing)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                    }
+                                    <i class="bi bi-check-lg me-2"></i> Änderungen speichern
+                                </button>
+                                <button type="button" class="btn btn-warning" @onclick="ResetForm" disabled="@isProcessing">
+                                    <i class="bi bi-arrow-clockwise me-2"></i> Zurücksetzen
+                                </button>
+                                <button type="button" class="btn btn-secondary" @onclick="NavigateBack" disabled="@isProcessing">
+                                    <i class="bi bi-x-lg me-2"></i> Abbrechen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,6 @@
+@IDB.Service_HostAddress = http://localhost:5148
+
+GET {{IDB.Service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

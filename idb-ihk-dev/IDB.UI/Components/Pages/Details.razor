@@ -1,0 +1,169 @@
+﻿@using IDB.Business;
+@inject Business BusinessService
+@inject NavigationManager Navigation
+
+@page "/details/{selectedIDB:int}"
+<style>
+    .blurred-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow:hidden;
+        background: linear-gradient(135deg, rgba(255, 245, 230, 0.85), rgba(220, 240, 255, 0.85));
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        z-index: -1;
+    }
+ 
+    .nav-link {
+        display: flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
+    }
+
+        .nav-link div {
+            display: inline !important;
+        }
+
+
+    .nav-scrollable {
+        min-width: 280px !important;
+        width: 280px !important;
+    }
+
+</style>
+
+
+<div class="blurred-bg"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Startseite</a></li>
+        <li class="breadcrumb-item"><a href="/overview">Übersicht über die IDBs</a></li>
+        <li class="breadcrumb-item active">@_IDB.Table_Name</li>
+    </ol>
+</nav>
+
+<h3 class="text-center m-2">Tabellendetails für ID: @_IDB.Table_Name</h3>
+<div class="border rounded-4 p-3 container-fluid bg-white" style="max-width:100%;">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/detailrecord/@selectedIDB" class="btn btn-success">
+            <i class="bi bi-plus"></i> Neuen Datensatz erstellen
+        </a>
+
+        @if (selectedIDB == 30)
+        {
+            <div class="d-flex gap-2">
+                <button @onclick="OpenAllReports" class="btn btn-primary ">
+                    <i class="bi bi-file-pdf"></i> Alle Berichte erstellen (@GetFilteredRows().Count())
+                </button>
+
+                <button @onclick="OpenSelectedReports"
+                        class="btn btn-outline-primary"
+                        disabled="@(!selectedReportIds.Any())">
+                    <i class="bi bi-file-pdf"></i> Ausgewählte Berichte (@selectedReportIds.Count)
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (_ColumnsSingleIDB == null || _CellSingleIDB == null)
+    {
+        <p>Lade Daten…</p>
+    }
+    else
+    {
+        <div class="table-responsive flex-grow-1 rounded-4" style="overflow-y: auto; border: 1px solid #dee2e6;">
+            <table class="table table-striped table-hover mb-0">
+                <thead>
+                    <tr>
+                        @* Report-Checkbox nur für Tabelle 30 anzeigen *@
+                        @if (selectedIDB == 30)
+                        {
+                            <th>
+                                <input type="checkbox" @onchange="SelectAllReports" title="Alle für Report auswählen" />
+                            </th>
+                        }
+                        @foreach (var column in _ColumnsSingleIDB.Where(c => c.Archived == false).OrderBy(c => c.Column_no))
+                        {
+                            <th>@column.Name</th>
+                        }
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @* Leere Zelle für Report-Checkbox-Spalte *@
+                        @if (selectedIDB == 30)
+                        {
+                            <td></td>
+                        }
+                        @foreach (var column in _ColumnsSingleIDB.Where(c => c.Archived == false).OrderBy(c => c.Column_no))
+                        {
+                            <td>
+                                <input type="text"
+                                       class="form-control"
+                                       @bind="filterValues[column.Id]"
+                                       @oninput="@(e => OnFilterChange())"
+                                       placeholder="Filter..." />
+                            </td>
+                        }
+                        <td>
+                            <button class="btn btn-secondary btn-sm" @onclick="ClearAllFilters">Filter löschen</button>
+                        </td>
+                    </tr>
+                    @foreach (var rowGroup in GetFilteredRows())
+                    {
+                        int currentRowId = rowGroup.Key;
+                        <tr>
+                            @* Report-Checkbox für jede Zeile (nur bei Tabelle 30) *@
+                            @if (selectedIDB == 30)
+                            {
+                                <td>
+                                    <input type="checkbox"
+                                           checked="@selectedReportIds.Contains(currentRowId)"
+                                           @onchange="@(e => ToggleReportSelection(currentRowId, e.Value))"
+                                           title="Für Report auswählen" />
+                                </td>
+                            }
+                            @foreach (var column in _ColumnsSingleIDB.Where(c => c.Archived == false).OrderBy(c => c.Column_no))
+                            {
+                                var cell = rowGroup.FirstOrDefault(c => c.Id_column == column.Id);
+                                <td>@(cell?.Data_value ?? "")</td>
+                            }
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <Tooltip Text="Bearbeiten"><a href="/detailrecord/@selectedIDB/@currentRowId" class="btn btn-outline-warning">
+                                     <i class="bi bi-pencil"></i> @* Bearbeiten *@
+                                    </a>
+                                    </Tooltip> 
+                                    @* Einzelbericht-Button nur für Tabelle 30 *@
+                                    @if (selectedIDB == 30)
+                                    {
+                                       <Tooltip Text="Report"><button @onclick="@(() => OpenSingleReport(currentRowId))"
+                                                class="btn btn-outline-primary">
+                                            <i class="bi bi-file-earmark-pdf"></i> @* Report *@
+                                            </button>
+                                        </Tooltip>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (responseMessage != null)
+        {
+            <div class="alert alert-info mt-3">
+                @responseMessage
+                <button type="button" class="btn-close" @onclick="ClearMessage" aria-label="Close"></button>
+            </div>
+        }
+    }
+</div>
+
