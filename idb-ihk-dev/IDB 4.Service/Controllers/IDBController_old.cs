@@ -1,18 +1,14 @@
-using IDB.Service.Klassen;
+﻿using IDB.Service.Klassen;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IDB.Service.Controllers
 {
     using IDB.Model;
-    
-    // API-Controller für IDB-Verwaltung
     [ApiController]
     [Route("[controller]")]
     public class IDBController : ControllerBase
     {
-        #region GET-Endpunkte
-        
-        // Datei abrufen
+        #region [HttpGet]
         [HttpPost("get_file")]
         public FileUploadDTO Get_File(FileUploadDTO file)
         {
@@ -20,23 +16,30 @@ namespace IDB.Service.Controllers
             return obj.Get_File(file);
         }
 
-        // Alle IDBs abrufen
         [HttpGet("AllIDBs")]
         public List<IDB> Get_AllIDBs()
         {
             IDBExtended obj = new IDBExtended();
             return obj.Get_AllIDBs();
         }
-        
-        // Alle Datei-Metadaten abrufen
         [HttpGet("AllFileMeta")]
         public List<FileUploadDTO> Get_FileMeta()
         {
             IDBExtended obj = new IDBExtended();
             return obj.Get_FileMeta();
         }
-        
-        // IDB nach ID abrufen
+        [HttpGet("All_Ausfuellhilfe")]
+        public List<Ausfuellhilfe> Get_All_Ausfuellhilfen()
+        {
+            IDBExtended obj = new IDBExtended();
+            return obj.Get_All_Ausfuellhilfen();
+        } 
+        [HttpGet("All_Ausfuellhilfe_Item")]
+        public List<AusfuellhilfeItem> Get_All_Ausfuellhilfen_Items()
+        {
+            IDBExtended obj = new IDBExtended();
+            return obj.Get_All_Ausfuellhilfen_Items();
+        }
         [HttpGet("IDBbyId/{Id}")]
         public IDB Get_IDBbyId(string Id)
         {
@@ -44,7 +47,6 @@ namespace IDB.Service.Controllers
             return obj.Get_IDBbyId(Convert.ToInt32(Id));
         }
 
-        // Alle Spalten abrufen
         [HttpGet("AllColumns")]
         public List<Column> Get_AllColumns()
         {
@@ -52,7 +54,7 @@ namespace IDB.Service.Controllers
             return obj.Get_AllColumns();
         }
 
-        // Alle Zelldaten abrufen
+
         [HttpGet("AllCellData")]
         public List<Cell> Get_AllCellData()
         {
@@ -61,10 +63,9 @@ namespace IDB.Service.Controllers
         }
         #endregion
 
-        #region POST-Endpunkte
-        #region Einfügen
-        
-        // Neue IDB einfügen
+        #region [HttpPost]
+        #region Insert
+
         [HttpPost("Insert")]
         public ActionResult<int> Insert_IDB(IDB idb)
         {
@@ -79,8 +80,21 @@ namespace IDB.Service.Controllers
                 return BadRequest("Einfuegen fehlgeschlagen."); 
             }
         }
-        
-        // Neue Spalte einfügen
+        [HttpPost("Insert_AusfuellhilfeName")]
+        public int Insert_AusfuellhilfeName(Ausfuellhilfe ausfuellhilfe)
+        {
+          
+            IDBExtended obj = new IDBExtended();
+            int returnId = obj.Insert_AusfuellhilfeName(ausfuellhilfe);
+            if (returnId > 0)
+            {
+                return returnId; 
+            }
+            else
+            {
+                return 0; 
+            }
+        }
         [HttpPost("Insert_Column")]
         public string Insert_Column(Column col)
         {
@@ -94,8 +108,20 @@ namespace IDB.Service.Controllers
                 return "ERROR";
             }
         }
+        [HttpPost("Insert_AusfuellhilfeItem")]
+        public string Insert_AusfuellhilfeItem(AusfuellhilfeItem ausfuellhilfeItem)
+        {
+            IDBExtended obj = new IDBExtended();
+            if (obj.Insert_AusfuellhilfeItem(ausfuellhilfeItem))
+            {
+                return "OK";
+            }
+            else
+            {
+                return "ERROR";
+            }
+        }
 
-        // Zelldaten einfügen
         [HttpPost("Insert_celldata")]
         public string Insert_CellData(Cell cell)
         {
@@ -111,10 +137,6 @@ namespace IDB.Service.Controllers
         }
 
         #endregion
-        
-        #region Löschen
-        
-        // Zelldaten-Zeile löschen
         [HttpPost("Delete_celldatarow")]
         public string Delete_CellDataRow(Cell cell)
         {
@@ -129,14 +151,33 @@ namespace IDB.Service.Controllers
             }
         }
      
-        // Datei löschen
+        [HttpPost("Delete_Ausfuellhilfe")]
+        public IActionResult Delete_Ausfuellhilfe(DeleteRequest request)
+        {
+           
+            
+            IDBExtended obj = new IDBExtended();
+
+            if (obj.Delete_Ausfuellhilfe(request.Id))
+            {
+                return Ok("Datensatz erfolgreich gelöscht.");
+                
+            }
+            else
+            {
+                return NotFound($"Datensatz mit der ID {request.Id} wurde nicht gefunden.");
+            }
+        }
         [HttpPost("delete_file")]
         public IActionResult Delete_File(FileUploadDTO file)
         {
+           
+            
             IDBExtended obj = new IDBExtended();
 
             if (obj.Delete_FileMeta(file.RecordId))
             {
+
                 if (obj.Delete_File(file))
                 {
                     return Ok("Datensatz erfolgreich gelöscht.");
@@ -151,11 +192,7 @@ namespace IDB.Service.Controllers
                 return NotFound($"Datensatz mit der ID {file.RecordId} wurde nicht gefunden.");
             }
         }
-        #endregion
-        
-        #region Aktualisieren
-        
-        // IDB bearbeiten
+        #region update
         [HttpPost("EditIDB")]
         public string Edit_IDB(IDB idb)
         {
@@ -169,8 +206,6 @@ namespace IDB.Service.Controllers
                 return "ERROR";
             }
         }
-        
-        // Zelldaten aktualisieren
         [HttpPost("Update_celldata")]
         public string Update_CellData(Cell cell)
         {
@@ -184,8 +219,6 @@ namespace IDB.Service.Controllers
                 return "ERROR";
             }
         }
-        
-        // Spalte aktualisieren
         [HttpPost("Update_column")]
         public string Update_Column(Column col)
         {
@@ -199,8 +232,19 @@ namespace IDB.Service.Controllers
                 return "ERROR";
             }
         }
-        
-        // Datei hochladen
+        [HttpPost("Update_ausfuellhilfe")]
+        public string Update_ausfuellhilfe(Ausfuellhilfe ausfuellhilfe)
+        {
+            IDBExtended obj = new IDBExtended();
+            if (obj.Update_ausfuellhilfeName(ausfuellhilfe))
+            {
+                return "OK";
+            }
+            else
+            {
+                return "ERROR";
+            }
+        }
         [HttpPost("Upload")]
         public string Upload(FileUploadDTO file)
         {
@@ -210,6 +254,7 @@ namespace IDB.Service.Controllers
 
             if (uploadFile == true && uploadFiledata == true)
             {
+                
                 return "OK";
             }
             else
