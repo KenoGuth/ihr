@@ -59,12 +59,6 @@ namespace IDB.UI.Components.Pages
 
             navigationManager.NavigateTo($"editidb/{chosenId}");
         }
-       public void btnExportIDB(int chosenId)
-            {
-                BusinessService.chosenIDB = chosenId;
-
-                navigationManager.NavigateTo($"export/{chosenId}");
-            }
        
         #endregion
         

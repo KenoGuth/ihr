@@ -1,0 +1,21 @@
+# Build Artefakte
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# NuGet Packages
+*.nupkg
+**/packages/
+
+# Visual Studio
+.vs/
+*.vsidx
+*.vspscc
+*.vsmdi
+*.vsp
+*.vspx
+
+# Temporäre Dateien
+*.tmp
+*.temp

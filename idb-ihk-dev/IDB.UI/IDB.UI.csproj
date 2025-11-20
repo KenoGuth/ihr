@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\IDB.Business\IDB.Business.csproj" />
     <ProjectReference Include="..\IDB.Model\IDB.Model.csproj" />
-    <ProjectReference Include="..\Reports\IDB.Reports.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +27,6 @@
 
   <ItemGroup>
     <PackageReference Include="DevExpress.Blazor" Version="24.2.8" />
-    <PackageReference Include="DevExpress.Blazor.PdfViewer" Version="24.2.8" />
-    <PackageReference Include="DevExpress.Blazor.Reporting.Viewer" Version="24.2.8" />
-    <PackageReference Include="DevExpress.Blazor.Resources" Version="24.2.8" />
-    <PackageReference Include="DevExpress.Reporting.Core" Version="24.2.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.4" />
     <PackageReference Include="Radzen.Blazor" Version="6.6.2" />
     <PackageReference Include="System.Text.Json" Version="9.0.6" />
