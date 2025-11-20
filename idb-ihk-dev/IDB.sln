@@ -1,11 +1,9 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.UI", "IDB.UI\IDB.UI.csproj", "{D1C8404E-5873-472E-9187-9B66A67E284D}"
 	ProjectSection(ProjectDependencies) = postProject
-		{1295B97E-D110-4633-B18E-A5DE1708B2BA} = {1295B97E-D110-4633-B18E-A5DE1708B2BA}
 		{D297CBF1-21DD-4D38-8927-B7417209F20E} = {D297CBF1-21DD-4D38-8927-B7417209F20E}
 	EndProjectSection
 EndProject
@@ -16,11 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.Business", "IDB.Busines
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.DataAccess", "IDB.DataAccess\IDB.DataAccess.csproj", "{30AEA88A-D2B7-4E7C-B496-8B2F032B2D6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.Service", "IDB.Service\IDB.Service.csproj", "{8D2743AC-BEED-4381-B33F-A500ED412880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.Service", "IDB 4.Service\IDB.Service.csproj", "{8D2743AC-BEED-4381-B33F-A500ED412880}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDB.Model", "IDB.Model\IDB.Model.csproj", "{8F2ADAB1-00F4-4BB9-A56E-BD085716F762}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDB.Reports", "Reports\IDB.Reports.csproj", "{1295B97E-D110-4633-B18E-A5DE1708B2BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,10 +44,6 @@ Global
 		{8F2ADAB1-00F4-4BB9-A56E-BD085716F762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F2ADAB1-00F4-4BB9-A56E-BD085716F762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F2ADAB1-00F4-4BB9-A56E-BD085716F762}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1295B97E-D110-4633-B18E-A5DE1708B2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1295B97E-D110-4633-B18E-A5DE1708B2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1295B97E-D110-4633-B18E-A5DE1708B2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1295B97E-D110-4633-B18E-A5DE1708B2BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,429 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj": {}
+  },
+  "projects": {
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
+        "projectName": "IDB.Business",
+        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj"
+              },
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DevExpress.Blazor": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "Microsoft.AspNetCore.Components.QuickGrid": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
+        "projectName": "IDB.DataAccess",
+        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DevExpress.Blazor": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "Microsoft.AspNetCore.Components.QuickGrid": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
+        "projectName": "IDB.Model",
+        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DevExpress.Blazor": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "Microsoft.AspNetCore.Components.QuickGrid": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.Fast.Components.FluentUI": {
+              "target": "Package",
+              "version": "[3.8.0, )"
+            },
+            "Microsoft.FluentUI.AspNetCore.Components": {
+              "target": "Package",
+              "version": "[4.10.4, )"
+            },
+            "Microsoft.FluentUI.AspNetCore.Components.DataGrid.EntityFrameworkAdapter": {
+              "target": "Package",
+              "version": "[4.10.4, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
+        "projectName": "IDB.UI",
+        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj"
+              },
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+              },
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DevExpress.Blazor": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "DevExpress.Blazor.PdfViewer": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "DevExpress.Blazor.Reporting.Viewer": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "DevExpress.Blazor.Resources": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "DevExpress.Reporting.Core": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            },
+            "Microsoft.AspNetCore.Components.QuickGrid": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[6.6.2, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj",
+        "projectName": "IDB.Reports",
+        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DevExpress.Reporting.Core": {
+              "target": "Package",
+              "version": "[24.2.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

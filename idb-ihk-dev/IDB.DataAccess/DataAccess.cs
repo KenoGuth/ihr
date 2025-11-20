@@ -9,6 +9,7 @@ namespace IDB.DataAccess
     using System.Text;
 
     public class DataAccess {
+        // Alle IDBs abrufen
         public List<IDB> Get_AllIDBs(string URLWebAPI)
         {
             string sURL = URLWebAPI + "idb/allidbs";
@@ -23,10 +24,10 @@ namespace IDB.DataAccess
                 List<IDB>? lstTemp = JsonConvert.DeserializeObject<List<IDB>>(response);
                 if (lstTemp == null) return new List<IDB>();
                 else return lstTemp;
-
-
             }
         }
+        
+        // Alle Datei-Metadaten abrufen
         public List<FileUploadDTO> Get_FileMeta(string URLWebAPI)
         {
             string sURL = URLWebAPI + "idb/AllFileMeta";
@@ -41,47 +42,10 @@ namespace IDB.DataAccess
                 List<FileUploadDTO>? lstTemp = JsonConvert.DeserializeObject<List<FileUploadDTO>>(response);
                 if (lstTemp == null) return new List<FileUploadDTO>();
                 else return lstTemp;
-
-
-            }
-        }
-        public List<Ausfuellhilfe> Get_Ausfuellhilfe(string URLWebAPI)
-        {
-            string sURL = URLWebAPI + "idb/All_Ausfuellhilfe";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
-
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                var response = client.GetStringAsync(sURL).Result;
-
-                List<Ausfuellhilfe>? lstTemp = JsonConvert.DeserializeObject<List<Ausfuellhilfe>>(response);
-                if (lstTemp == null) return new List<Ausfuellhilfe>();
-                else return lstTemp;
-
-               
-            }
-        }
-        public List<AusfuellhilfeItem> Get_AusfuellhilfeItems(string URLWebAPI)
-        {
-            string sURL = URLWebAPI + "idb/All_Ausfuellhilfe_Item";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
-
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                var response = client.GetStringAsync(sURL).Result;
-
-                List<AusfuellhilfeItem>? lstTemp = JsonConvert.DeserializeObject<List<AusfuellhilfeItem>>(response);
-                if (lstTemp == null) return new List<AusfuellhilfeItem>();
-                else return lstTemp;
-
-               
             }
         }
 
+        // IDB nach ID abrufen
         public IDB Get_IDBbyID(string URLWebAPI, int Id)
         {
             string sURL = URLWebAPI + "idb/idbbyid/" + Id.ToString();
@@ -96,6 +60,8 @@ namespace IDB.DataAccess
                 return JsonConvert.DeserializeObject<IDB>(response);
             }
         }
+        
+        // Alle Spalten abrufen
         public List<Column> Get_AllColumns(string URLWebAPI)
         {
             string sURL = URLWebAPI + "idb/allcolumns";
@@ -112,6 +78,7 @@ namespace IDB.DataAccess
             }
         }
 
+        // Alle Zelldaten abrufen
         public List<Cell> Get_AllCellData(string URLWebAPI)
         {
             string sURL = URLWebAPI + "idb/allcelldata";
@@ -123,15 +90,13 @@ namespace IDB.DataAccess
                 client.BaseAddress = new Uri(sURL);
                 var response = client.GetStringAsync(sURL).Result;
                 
-                
-                    List<Cell>? lstTemp =  JsonConvert.DeserializeObject<List<Cell>>(response);
-                    if (lstTemp == null) return new List<Cell>();
-                    else  return lstTemp;
-                    
-                
+                List<Cell>? lstTemp =  JsonConvert.DeserializeObject<List<Cell>>(response);
+                if (lstTemp == null) return new List<Cell>();
+                else  return lstTemp;
             }
         }
 
+        // Neue IDB einfügen
         public int Insert_IDB(string URLWebAPI, IDB idb)
         {
             string sURL = URLWebAPI + "idb/insert/" ;
@@ -155,29 +120,8 @@ namespace IDB.DataAccess
                 }
             }
         }
-        public int Insert_AusfuellhilfeName(string URLWebAPI, Ausfuellhilfe ausfuellhilfe)
-        {
-            string sURL = URLWebAPI + "idb/insert_ausfuellhilfename";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
-
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                string Json = JsonConvert.SerializeObject(ausfuellhilfe);
-                HttpContent content = new StringContent(Json, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(sURL, content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = response.Content.ReadAsStringAsync().Result;
-                    int.TryParse(responseContent, out int newId);
-                    return newId;
-                }
-                else {
-                    return 0;
-                }
-            }
-        }
+        
+        // Neue Spalte einfügen
         public bool Insert_Column(string URLWebAPI, Column col)
         {
             string sURL = URLWebAPI + "idb/insert_column/";
@@ -194,23 +138,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
-        public bool Insert_AusfuellhilfeItem(string URLWebAPI, AusfuellhilfeItem ausfuellhilfeItem)
-        {
-            string sURL = URLWebAPI + "idb/Insert_AusfuellhilfeItem/";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
 
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                string Json = JsonConvert.SerializeObject(ausfuellhilfeItem);
-                HttpContent content = new StringContent(Json, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(sURL, content).Result;
-                if (response.StatusCode == HttpStatusCode.OK) return true;
-                else return false;
-            }
-        }
-
+        // Neue Zelle einfügen
         public bool Insert_CellData(string URLWebAPI, Cell cell)
         {
             string sURL = URLWebAPI + "idb/insert_celldata/";
@@ -227,6 +156,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
+        
+        // Zelldaten aktualisieren
         public bool Update_CellData(string URLWebAPI, Cell cell)
         {
             string sURL = URLWebAPI + "idb/update_celldata/";
@@ -243,6 +174,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
+        
+        // Spalte aktualisieren
         public bool Update_Column(string URLWebAPI, Column col)
         {
             string sURL = URLWebAPI + "idb/update_column/";
@@ -259,22 +192,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         } 
-        public bool Update_Ausfuellhilfe(string URLWebAPI, Ausfuellhilfe ausfuellhilfe)
-        {
-            string sURL = URLWebAPI + "idb/update_ausfuellhilfe/";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
-
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                string Json = JsonConvert.SerializeObject(ausfuellhilfe);
-                HttpContent content = new StringContent(Json, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(sURL, content).Result;
-                if (response.StatusCode == HttpStatusCode.OK) return true;
-                else return false;
-            }
-        }
+        
+        // Zelldaten-Zeile löschen
         public bool Delete_CellDataRow(string URLWebAPI, Cell cell)
         {
             string sURL = URLWebAPI + "idb/delete_celldatarow/";
@@ -291,30 +210,13 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
-        public bool Delete_Ausfuellhilfe(string URLWebAPI, int id) { 
-            string sURL = URLWebAPI + "idb/delete_ausfuellhilfe/";
-            HttpClientHandler auth = new HttpClientHandler();
-            auth.Credentials = CredentialCache.DefaultCredentials;
-            DeleteRequest request = new DeleteRequest();
-            request.Id = id;
-            using (var client = new HttpClient(auth))
-            {
-                client.BaseAddress = new Uri(sURL);
-                string Json = JsonConvert.SerializeObject(request);
-                HttpContent content = new StringContent(Json, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(sURL, content).Result;
-
-                string abc = response.Content.ReadAsStringAsync().Result;
-                if (response.StatusCode == HttpStatusCode.OK) return true;
-                else return false;
-            }
-        }
+        
+        // Datei löschen
         public async Task<bool> Delete_FileAsync(string URLWebAPI, FileUploadDTO file) { 
             string sURL = URLWebAPI + "idb/delete_file/";
             HttpClientHandler auth = new HttpClientHandler();
             auth.Credentials = CredentialCache.DefaultCredentials;
             
-           
             using (var client = new HttpClient(auth))
             {
                 client.BaseAddress = new Uri(sURL);
@@ -327,6 +229,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
+        
+        // IDB bearbeiten
         public bool Edit_IDB(string URLWebAPI, IDB idb)
         {
             string sURL = URLWebAPI + "idb/editidb/";
@@ -343,6 +247,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
+        
+        // Datei hochladen
         public bool Upload_File(string URLWebAPI, FileUploadDTO filedto)
         {
             string sURL = URLWebAPI + "idb/upload/";
@@ -359,6 +265,8 @@ namespace IDB.DataAccess
                 else return false;
             }
         }
+        
+        // Datei abrufen
         public FileUploadDTO Get_File(string URLWebAPI, FileUploadDTO filedto)
         {
             string sURL = URLWebAPI + "idb/get_file/";
@@ -376,7 +284,6 @@ namespace IDB.DataAccess
 
                 FileUploadDTO? fileDok = JsonConvert.DeserializeObject<FileUploadDTO>(responseJson);
                  return fileDok;
-
             }
         }
     }
