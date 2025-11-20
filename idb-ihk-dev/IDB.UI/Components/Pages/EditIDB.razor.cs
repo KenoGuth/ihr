@@ -20,7 +20,6 @@
         bool _isChanged;
         private int? highlightedColumnId = null;
         private List<Column> _Columns = new List<Column>();
-        private List<Model.Ausfuellhilfe> ausfuellhilfen = new List<Model.Ausfuellhilfe>();
         bool showConfirmationModal = false;
         bool showDeleteColModal = false;
         bool showDataTypeModal = false;
@@ -31,16 +30,16 @@
         private Column newCol = new();
         string newColumnName = "";
         string newColumnDataType = "varchar";
-        int newColumnAusfuellhilfe;
 
+        // Wird beim Laden der Seite ausgeführt
         protected override async Task OnInitializedAsync()
         {
             _IDB = obj.Get_IDBbyID(appState.APIurl, selectedIDB);
             dataTypes = obj.Get_Datentypen();
-            ausfuellhilfen = obj.Get_All_Ausfuellhilfe(appState.APIurl);
             LoadColumns();
         }
 
+        // Property um ungespeicherte Änderungen zu tracken
         private bool isChanged
         {
             get => _isChanged;
@@ -63,6 +62,7 @@
             }
         }
 
+        // Lädt alle Spalten für die ausgewählte IDB
         private void LoadColumns()
         {
             try

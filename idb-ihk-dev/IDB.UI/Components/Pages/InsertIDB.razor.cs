@@ -7,8 +7,6 @@ namespace IDB.UI.Components.Pages
 
     public partial class InsertIDB
     {
-        private List<Model.Ausfuellhilfe> ausfuellhilfen = new List<Model.Ausfuellhilfe>();
-        private int? selectedAusfuellhilfe = null;
         Business obj = new Business();
         private Model.IDB idb = new Model.IDB();
         private string? responseMessage;
@@ -19,31 +17,32 @@ namespace IDB.UI.Components.Pages
         private List<Column> columns = new List<Column>();
 
         private List<Model.IDB> tables = new List<Model.IDB>();
+        
+        // Wird beim Laden der Seite ausgeführt
         protected override void OnInitialized()
         {
             Business obj = new Business();
             tables = obj.Get_AllIDBs(appState.APIurl);
-            ausfuellhilfen = obj.Get_All_Ausfuellhilfe(appState.APIurl);
             AddAnotherColumn();
             dataTypes = obj.Get_Datentypen();
         }
        
-
-
+        // Fügt eine neue Spalte zur Liste hinzu
         private void AddAnotherColumn()
         {
             columns.Add(new Column());
         }
 
+        // Wird beim Absenden des Formulars aufgerufen
         private async Task HandleValidSubmit()
         {
-
+            // Neue IDB in der Datenbank speichern
             id_newTable = obj.Insert_IDB(appState.APIurl, idb);
             if (id_newTable > 0)
             {
                 SaveColumns();
-                // Verzögerung von 5 Sekunden einbauen und dann Seite neu laden
-                //await Task.Delay(5000); // 5 Sekunden warten
+                
+                // Countdown anzeigen und dann Seite neu laden
                 countdown = 5;
                 responseMessage = "IDB erfolgreich hinzugefügt";
                 for (int i = 0; i < 5; i++)
@@ -52,17 +51,20 @@ namespace IDB.UI.Components.Pages
                     countdown--;
                     StateHasChanged();
                 }
-                // Seite neu laden (aktuelle URL erneut aufrufen)
+                
                 Navigation.NavigateTo(Navigation.Uri, true);
             }
-            else { responseMessage = "Das Einfügen einer neuen IDB hat nicht geklappt"; }
-
-
+            else { 
+                responseMessage = "Das Einfügen einer neuen IDB hat nicht geklappt"; 
+            }
         }
+        
+        // Speichert alle definierten Spalten für die neue IDB
         private void SaveColumns()
         {
             int columnzaehler = 1;
             bool responseMessage = false;
+            
             foreach (Column col in columns)
             {
                 Business obj = new Business();
@@ -71,6 +73,7 @@ namespace IDB.UI.Components.Pages
 
                 responseMessage = obj.Insert_Column(appState.APIurl, col);
             }
+            
             Console.WriteLine("Spalten gespeichert!");
             foreach (var col in columns)
             {
