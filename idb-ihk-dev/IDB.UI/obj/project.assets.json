@@ -889,20 +889,6 @@
         "runtime": {
           "bin/placeholder/IDB.Model.dll": {}
         }
-      },
-      "IDB.Reports/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "DevExpress.Reporting.Core": "24.2.8",
-          "IDB.Model": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/IDB.Reports.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/IDB.Reports.dll": {}
-        }
       }
     }
   },
@@ -3086,42 +3072,32 @@
       "type": "project",
       "path": "../IDB.Model/IDB.Model.csproj",
       "msbuildProject": "../IDB.Model/IDB.Model.csproj"
-    },
-    "IDB.Reports/1.0.0": {
-      "type": "project",
-      "path": "../Reports/IDB.Reports.csproj",
-      "msbuildProject": "../Reports/IDB.Reports.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "DevExpress.Blazor >= 24.2.8",
-      "DevExpress.Blazor.PdfViewer >= 24.2.8",
-      "DevExpress.Blazor.Reporting.Viewer >= 24.2.8",
-      "DevExpress.Blazor.Resources >= 24.2.8",
-      "DevExpress.Reporting.Core >= 24.2.8",
       "IDB.Business >= 1.0.0",
       "IDB.Model >= 1.0.0",
-      "IDB.Reports >= 1.0.0",
       "Microsoft.AspNetCore.Components.QuickGrid >= 9.0.4",
       "Radzen.Blazor >= 6.6.2",
       "System.Text.Json >= 9.0.6"
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "/Users/keno/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
+      "projectUniqueName": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
       "projectName": "IDB.UI",
-      "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
-      "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.UI/obj/",
+      "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.UI/IDB.UI.csproj",
+      "packagesPath": "/Users/keno/.nuget/packages/",
+      "outputPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.UI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/runner/.nuget/NuGet/NuGet.Config"
+        "/Users/keno/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3133,14 +3109,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj": {
-              "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj"
+            "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj": {
+              "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj"
             },
-            "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
-              "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
-            },
-            "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj": {
-              "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/Reports/IDB.Reports.csproj"
+            "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+              "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
             }
           }
         }
@@ -3162,22 +3135,6 @@
         "targetAlias": "net8.0",
         "dependencies": {
           "DevExpress.Blazor": {
-            "target": "Package",
-            "version": "[24.2.8, )"
-          },
-          "DevExpress.Blazor.PdfViewer": {
-            "target": "Package",
-            "version": "[24.2.8, )"
-          },
-          "DevExpress.Blazor.Reporting.Viewer": {
-            "target": "Package",
-            "version": "[24.2.8, )"
-          },
-          "DevExpress.Blazor.Resources": {
-            "target": "Package",
-            "version": "[24.2.8, )"
-          },
-          "DevExpress.Reporting.Core": {
             "target": "Package",
             "version": "[24.2.8, )"
           },
@@ -3205,6 +3162,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.20, 8.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[8.0.20, 8.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.20, 8.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3213,7 +3184,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -3223,42 +3194,6 @@
       "level": "Error",
       "message": "Unable to find package DevExpress.Blazor. No packages exist with this id in source(s): nuget.org",
       "libraryId": "DevExpress.Blazor",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package DevExpress.Blazor.PdfViewer. No packages exist with this id in source(s): nuget.org",
-      "libraryId": "DevExpress.Blazor.PdfViewer",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package DevExpress.Blazor.Reporting.Viewer. No packages exist with this id in source(s): nuget.org",
-      "libraryId": "DevExpress.Blazor.Reporting.Viewer",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package DevExpress.Blazor.Resources. No packages exist with this id in source(s): nuget.org",
-      "libraryId": "DevExpress.Blazor.Resources",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1102",
-      "level": "Error",
-      "message": "Unable to find package DevExpress.Reporting.Core with version (>= 24.2.8)\n  - Found 1 version(s) in nuget.org [ Nearest version: 18.1.2-beta ]",
-      "libraryId": "DevExpress.Reporting.Core",
       "targetGraphs": [
         "net8.0"
       ]

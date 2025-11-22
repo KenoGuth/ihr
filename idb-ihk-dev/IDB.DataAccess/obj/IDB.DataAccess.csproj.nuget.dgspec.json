@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {}
+    "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {}
   },
   "projects": {
-    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
+    "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
+        "projectUniqueName": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
         "projectName": "IDB.DataAccess",
-        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
-        "packagesPath": "/home/runner/.nuget/packages/",
-        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/obj/",
+        "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj",
+        "packagesPath": "/Users/keno/.nuget/packages/",
+        "outputPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/runner/.nuget/NuGet/NuGet.Config"
+          "/Users/keno/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
-                "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+              "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+                "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
               }
             }
           }
@@ -76,26 +76,36 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+    "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
+        "projectUniqueName": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
         "projectName": "IDB.Model",
-        "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
-        "packagesPath": "/home/runner/.nuget/packages/",
-        "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/obj/",
+        "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj",
+        "packagesPath": "/Users/keno/.nuget/packages/",
+        "outputPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/runner/.nuget/NuGet/NuGet.Config"
+          "/Users/keno/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -161,12 +171,22 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

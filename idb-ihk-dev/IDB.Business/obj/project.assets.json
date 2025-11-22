@@ -1996,19 +1996,19 @@
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "/Users/keno/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
+      "projectUniqueName": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
       "projectName": "IDB.Business",
-      "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
-      "outputPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Business/obj/",
+      "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Business/IDB.Business.csproj",
+      "packagesPath": "/Users/keno/.nuget/packages/",
+      "outputPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Business/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/runner/.nuget/NuGet/NuGet.Config"
+        "/Users/keno/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2020,11 +2020,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
-              "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj"
+            "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj": {
+              "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.DataAccess/IDB.DataAccess.csproj"
             },
-            "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
-              "projectPath": "/home/runner/work/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
+            "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj": {
+              "projectPath": "/Users/keno/dev/ihr/ihr/idb-ihk-dev/IDB.Model/IDB.Model.csproj"
             }
           }
         }
@@ -2069,12 +2069,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.20, 8.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.20, 8.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
